@@ -13,6 +13,7 @@ const now = new Date() // used to print in info
 
 app.use(express.json()) // use json parser to send requests
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body')) // create the format of the resource logging to use
+app.use(express.static('dist')) // used to serve dist folder as the starting point of the app
 
 // this one is a middleware that runs when api request is made on a address that has nothing
 const unknownEndpoint = (req, res) => {
