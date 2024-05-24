@@ -119,7 +119,7 @@ app.post('/api/persons', (req, res) => {
 // make sure of the order of the middleware that you use, runs from top to bottom
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`)
 })
