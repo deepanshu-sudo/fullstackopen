@@ -56,9 +56,8 @@ const App = () => {
           })
           .catch(error => {
             setNotificationClass('error')
-            setNotification(`Information of ${existingPerson.name} has already been removed from the server`)
+            setNotification(error.response.data.error)
             setTimeout(() => setNotification(null),5000)
-            setPersons(persons.filter(p => p.id !== existingPerson.id))
             console.error('Error updating person',error)
           })
       }
@@ -76,7 +75,12 @@ const App = () => {
         setTimeout(() => setNotification(null),5000)
         resetInputFields()
       })
-      .catch(error => console.error('Error updating person',error))
+      .catch(error => {
+        setNotificationClass('error')
+        setNotification(error.response.data.error)
+        setTimeout(() => setNotification(null),5000)
+        console.error('Error adding person',error)
+      })
   }
 
   const handleDeletion = (id) => {
