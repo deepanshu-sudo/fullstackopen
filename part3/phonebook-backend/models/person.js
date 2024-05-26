@@ -1,20 +1,5 @@
 const mongoose = require('mongoose') // import mongoose using commonjs syntax
 
-mongoose.set('strictQuery',false) // When the strict option is set to true, Mongoose will ensure that only the fields that are specified in your schema will be saved in the database, and all other fields will not be saved (if some other fields are sent).
-
-const url = process.env.MONGODB_URL // import mongodb url from environment variables set by dotenv
-
-console.log('connecting to',url)
-
-// try connecting to url, print appropriate message
-mongoose.connect(url)
-  .then(() => {
-    console.log('connected to MongoDB')
-  })
-  .catch(error => {
-    console.log('error connecting to MongoDB', error.message)
-  })
-
 // create the person schema, the way in which the mongodb database collection will store the appropriate object in the document
 const personSchema = new mongoose.Schema({
   name: {
