@@ -47,11 +47,11 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (req, res) => {
     const user = req.user
     const blog = await Blog.findById(req.params.id)
 
-    if(user && blog && user._id.toString() === blog.user.toString()) {
+    if (user && blog && user._id.toString() === blog.user.toString()) {
         await Blog.findByIdAndDelete(req.params.id)
         res.status(204).end()
     } else {
-        return res.status(400).json({error: 'error while deleting: invalid user or id'})
+        return res.status(400).json({ error: 'error while deleting: invalid user or id' })
     }
 })
 
@@ -65,6 +65,23 @@ blogsRouter.put('/:id', async (req, res) => {
     ).populate('user', { username: 1, name: 1 })
 
     res.json(updatedBlog)
+})
+
+blogsRouter.post('/:id/comments', async (req, res) => {
+    const blog = await Blog.findById(req.params.id)
+    if (!blog) {
+        return res.status(404).send({ error: 'Blog not found' })
+    }
+
+    const comment = {
+        content: req.body.content,
+        date: new Date()
+    }
+
+    blog.comments = blog.comments.concat(comment)
+    await blog.save()
+
+    res.status(201).json(comment)
 })
 
 module.exports = blogsRouter
