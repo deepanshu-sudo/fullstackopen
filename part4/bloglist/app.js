@@ -1,3 +1,4 @@
+const path = require('path');
 const config = require('./utils/config')
 const logger = require('./utils/logger')
 const express = require('express')
@@ -35,7 +36,12 @@ if (process.env.NODE_ENV === 'test') {
     app.use('/api/testing', testingRouter)
 }
 
-app.use(middleware.unknownEndpoint)
+app.use('/api/*', middleware.unknownEndpoint)
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+})
+
 app.use(middleware.errorHandler)
 
 module.exports = app
