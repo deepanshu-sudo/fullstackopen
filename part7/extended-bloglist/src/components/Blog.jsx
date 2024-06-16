@@ -9,6 +9,14 @@ import { ExternalLink } from 'lucide-react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 
+function prependHttp(url) {
+  if (!/^https?:\/\//i.test(url)) {
+    return `https://${url}`;
+  }
+  return url;
+}
+
+
 const Blog = ({ blog, currentUser }) => {
   const dispatch = useDispatch()
   const notify = useNotification()
@@ -67,7 +75,7 @@ const Blog = ({ blog, currentUser }) => {
 
       <div className='py-5'>
         <span className='font-bold mr-2'>url:</span>
-        <a href={blog.url} className='text-blue-600'>
+        <a href={prependHttp(blog.url)} className='text-blue-600'>
           {blog.url} <ExternalLink className='w-4 h-4 inline-block' />
         </a>
         <br />
